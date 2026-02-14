@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walentynka 💖</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body, html {
+    width: 100%; height: 100%;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffccd9, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #main-page, #yes-page, #no-page {
+    position: absolute;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #yes-page, #no-page { display: none; overflow: hidden; }
+
+  h1 {
+    color: #e60073;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2em;
+    text-shadow: 1px 1px 2px #fff;
+  }
+
+  button {
+    padding: 15px 40px;
+    font-size: 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+  }
+
+  #noBtn { background: #ff3366; color: white; font-size: 60px; animation: shake 1s infinite; }
+  #yesBtn { background: #ff99cc; color: white; animation: pulse 1.5s infinite; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); background-color:#ff99cc; }
+    50% { transform: scale(1.1); background-color:#ff66aa; }
+  }
+
+  /* Strona Tak */
+  #yes-page h1 { font-size: 4em; margin-bottom: 20px; text-align:center; }
+  #yes-page p { font-size: 2em; text-align:center; margin-bottom: 20px; color:#fff; text-shadow:1px 1px 2px #e60073; }
+  #yes-page img { width: 350px; max-width: 80%; border-radius:12px; margin-bottom:20px; animation: floatImg 2s ease-in-out infinite alternate; }
+
+  @keyframes floatImg {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-15px); }
+  }
+
+  /* Strona Nie */
+  #no-page { background:#5555aa; flex-direction: column; justify-content: center; align-items: center; }
+  #no-page img { width:220px; max-width:50%; margin-bottom:15px; }
+  #no-page h1 { color: #fff; text-align:center; margin-top:10px; font-size:2em; text-shadow:1px 1px 2px #000; }
+
+  /* spadające buziaki na yes-page */
+  .kiss {
+    position: absolute;
+    font-size: 30px;
+    animation: kissFall linear infinite;
+  }
+  @keyframes kissFall {
+    0% { transform: translateY(-50px) scale(1); opacity:1; }
+    100% { transform: translateY(110vh) scale(1.2); opacity:0; }
+  }
+
+  /* migające serduszka na yes-page */
+  .heart {
+    position: absolute;
+    width: 20px; height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: floatUp 4s linear infinite, blink 1s infinite;
+  }
+  .heart:before, .heart:after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+  .heart:before { top: -10px; left:0; }
+  .heart:after { left:10px; top:0; }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(45deg); opacity: 0; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity:1; }
+    50% { opacity:0.5; }
+  }
+
+  /* animacja żywego napisu */
+  .letter {
+    display:inline-block;
+    animation: floatLetter 1s infinite;
+  }
+  @keyframes floatLetter {
+    0%,100%{ transform: translateY(0px);}
+    50% { transform: translateY(-8px);}
+  }
+</style>
+</head>
+<body>
+
+<div id="main-page">
+  <h1>Chcesz zostać moją Walentynką? 💖</h1>
+  <button id="yesBtn">Tak</button>
+  <button id="noBtn">Nie</button>
+</div>
+
+<div id="yes-page">
+  <h1 id="yesText">Tak! 💖 Jesteś moją Walentynką!</h1>
+  <p id="yesMessage">Ślę Ci moją walentynkę,<br>zrób więc do mnie słodką minkę,<br>daj buziaka albo dwa :D</p>
+  <img src="https://cdn.pixabay.com/photo/2020/05/17/16/58/carnation-5178896_1280.jpg" alt="Bukiet różowych goździków">
+</div>
+
+<div id="no-page">
+  <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg" alt="Smutna minka">
+  <h1>😢 Smutna minka… Może następnym razem?</h1>
+</div>
+
+<audio id="kissSound" src="https://www.soundjay.com/human/sounds/kiss-01.mp3" preload="auto"></audio>
+
+<script>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const mainPage = document.getElementById('main-page');
+const yesPage = document.getElementById('yes-page');
+const noPage = document.getElementById('no-page');
+const kissSound = document.getElementById('kissSound');
+const yesText = document.getElementById('yesText');
+
+// kliknięcie "Nie"
+noBtn.addEventListener('click', () => {
+  mainPage.style.display = 'none';
+  noPage.style.display = 'flex';
+});
+
+// kliknięcie "Tak"
+yesBtn.addEventListener('click', () => {
+  kissSound.play();
+  mainPage.style.display = 'none';
+  yesPage.style.display = 'flex';
+  startHearts();
+  startKisses();
+  animateText(yesText);
+});
+
+// spadające buziaki
+function startKisses() {
+  setInterval(() => {
+    const kiss = document.createElement('div');
+    kiss.className = 'kiss';
+    kiss.textContent = '💋';
+    kiss.style.left = Math.random() * window.innerWidth + 'px';
+    kiss.style.fontSize = (20 + Math.random()*30) + 'px';
+    kiss.style.animationDuration = (3 + Math.random()*2) + 's';
+    yesPage.appendChild(kiss);
+    setTimeout(() => kiss.remove(), 5000);
+  }, 300);
+}
+
+// migające serduszka
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    const size = 10 + Math.random()*20;
+    heart.style.width = heart.style.height = size + 'px';
+    heart.style.animationDuration = (3 + Math.random()*2) + 's';
+    yesPage.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 200);
+}
+
+// animacja żywego napisu
+function animateText(element) {
+  const text = element.textContent;
+  element.textContent = '';
+  for (let i=0;i<text.length;i++){
+    const span = document.createElement('span');
+    span.textContent = text[i];
+    span.className = 'letter';
+    span.style.animationDelay = (i*0.05)+'s';
+    element.appendChild(span);
+  }
+}
+</script>
+
+</body>
+</html>
